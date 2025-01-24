@@ -23,6 +23,6 @@
     "twilio": "^5.3.4"
   },
   "devDependencies": {
-    "ipfs-http-client": "^60.0.1"
+    "ipfs-http-client": "^50.1.2"
   }
 }

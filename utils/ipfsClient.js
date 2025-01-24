@@ -1,7 +1,7 @@
 import { create } from 'ipfs-http-client';
 
 // Connect to an Infura IPFS node
-const ipfs = create('https://ipfs.infura.io:5001/api/v0');
+const ipfs = create({ url: 'https://ipfs.infura.io:5001/api/v0' });
 
 // Function to upload file to IPFS
 const uploadToIPFS = async (fileBuffer) => {
