@@ -1,12 +1,12 @@
-const Form = require('../models/form');
-const multer = require('multer');
-const { create } = require('ipfs-http-client');
+import Form, { find, findById } from '../models/form';
+import multer, { memoryStorage } from 'multer';
+import { create } from 'ipfs-http-client';
 
 // Connect to an IPFS node (using Infura in this case)
 const ipfs = create('https://ipfs.infura.io:5001/api/v0');
 
 // Configure multer for file upload (use memory storage instead of a file path)
-const storage = multer.memoryStorage(); // Store files in memory to upload directly to IPFS
+const storage = memoryStorage(); // Store files in memory to upload directly to IPFS
 const upload = multer({ storage: storage }); // Use the memory storage
 
 // Create a new form entry
@@ -85,7 +85,7 @@ const createForm = async (req, res) => {
 // Get all form entries
 const getForms = async (req, res) => {
   try {
-    const forms = await Form.find().sort({ createdAt: -1 });
+    const forms = await find().sort({ createdAt: -1 });
     res.status(200).json(forms);
   } catch (error) {
     console.error(error);
@@ -97,7 +97,7 @@ const getForms = async (req, res) => {
 const getFormById = async (req, res) => {
   try {
     const { id } = req.params;
-    const form = await Form.findById(id);
+    const form = await findById(id);
 
     if (!form) {
       return res.status(404).json({ message: 'Form not found' });
@@ -110,7 +110,7 @@ const getFormById = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   createForm,
   getForms,
   getFormById,

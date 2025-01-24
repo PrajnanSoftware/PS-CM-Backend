@@ -1,4 +1,4 @@
-const { create } = require('ipfs-http-client');
+import { create } from 'ipfs-http-client';
 
 // Connect to an Infura IPFS node
 const ipfs = create('https://ipfs.infura.io:5001/api/v0');
@@ -15,4 +15,4 @@ const uploadToIPFS = async (fileBuffer) => {
   }
 };
 
-module.exports = { uploadToIPFS };
+export default { uploadToIPFS };
