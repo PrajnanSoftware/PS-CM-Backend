@@ -26,63 +26,63 @@ const formSchema = new mongoose.Schema({
   },
   education: {
     type: String,
-    required: [true, 'Education is required'],
+    required: false,
   },
   collegeName: {
     type: String,
-    required: [true, 'College name is required'],
+    required: false,
   },
   specialization: {
     type: String,
-    required: [true, 'Specialization is required'],
+    required: false,
   },
   cgpa: {
     type: String,
-    required: [true, 'CGPA is required'],
+    required: false,
   },
   graduationYear: {
     type: String,
-    required: [true, 'Graduation year is required'],
+    required: false,
   },
   skills: {
     type: String,
-    required: [true, 'Skills are required'],
+    required: false,
   },
   personalComputer: {
     type: String,
-    required: [true, 'Personal computer information is required'],
+    required: false,
   },
   preferredStartDate: {
     type: Date, // Using Date for better handling of date inputs
-    required: [true, 'Preferred start date is required'],
+    required: false,
   },
   timePerWeek: {
     type: String,
-    required: [true, 'Time per week information is required'],
+    required: false,
   },
   experienceYears: {
     type: String,
-    required: [true, 'Experience years are required'],
+    required: false,
   },
   passOutYear: {
     type: String,
-    required: [true, 'Pass-out year is required'],
+    required: false,
   },
   currentCTC: {
     type: String,
-    required: [true, 'Current CTC is required'],
+    required: false,
   },
   expectedCTC: {
     type: String,
-    required: [true, 'Expected CTC is required'],
+    required: false,
   },
   whyPrajnan: {
     type: String,
-    required: [true, 'This field is required'],
+    required: false,
   },
   howDidYouHear: {
     type: String,
-    required: [true, 'This field is required'],
+    required: false,
   },
   resume: {
     type: String, // Storing the IPFS CID or URL
