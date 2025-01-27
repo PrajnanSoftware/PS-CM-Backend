@@ -1,7 +1,7 @@
 // routes/protectedRoute.js
 
 const express = require('express');
-const authMiddleware = require('../middleware/authMiddleware'); // Import authMiddleware
+const authMiddleware = require('../middlewares/authMiddleware'); // Import authMiddleware
 
 const router = express.Router();
 
