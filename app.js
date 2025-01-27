@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const formRoutes = require('./routes/formRoutes');
+const protectedRoute = require('./routes/protectedRoute');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/profile', profileRoutes);
 app.use('/api/v1/forms', formRoutes);
+app.use('/api', protectedRoute);
 
 // WebSocket for notifications and chat
 const server = app.listen(process.env.PORT || 5000, () => {
