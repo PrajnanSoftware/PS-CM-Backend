@@ -44,8 +44,7 @@ export const createForm = async (req, res) => {
     if (req.file) {
       const fileBuffer = req.file.buffer;
       try {
-        const result = await ipfs.add(fileBuffer);
-        resumeCID = result.path;
+        resumeCID = await uploadToIPFS(fileBuffer);
       } catch (ipfsError) {
         console.error('Error uploading file to IPFS:', ipfsError);
         return res.status(500).json({ message: 'Error uploading file to IPFS.', error: ipfsError });
