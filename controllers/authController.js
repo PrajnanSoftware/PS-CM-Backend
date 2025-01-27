@@ -36,25 +36,3 @@ exports.login = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   res.send("Forgot password logic goes here");
 };
-
-// Validate Token
-exports.validateToken = (req, res) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authorization token is missing or invalid' });
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  try {
-    // Verify the token
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    // If the token is valid, respond with user details
-    res.status(200).json({ message: 'Token is valid', userId: decoded.id });
-  } catch (error) {
-    console.error('Token validation error:', error.message);
-    res.status(401).json({ message: 'Invalid or expired token' });
-  }
-};
