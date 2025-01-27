@@ -15,12 +15,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use(cors({
-  origin: 'http://localhost:3001', // Allow only localhost:3001 to make requests
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
-}));
-
 // Default root route
 app.get('/', (req, res) => {
   res.send('Welcome to PS Career Dashboard Backend API!'); // You can customize this message

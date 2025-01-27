@@ -1,85 +1,30 @@
 import Form from '../models/form';
-import multer, { memoryStorage } from 'multer';
 import { create } from 'ipfs-http-client';
 
 // Connect to an IPFS node (Infura)
 const ipfs = create('https://ipfs.infura.io:5001/api/v0');
 
-// Configure multer for in-memory file upload
-const storage = memoryStorage();
-const upload = multer({ storage: storage });
+// Function to upload file to IPFS
+const uploadToIPFS = async (fileBuffer) => {
+  try {
+    const result = await ipfs.add(fileBuffer);
+    console.log('File uploaded to IPFS with CID:', result.path);
+    return result.path; // Return the CID of the uploaded file
+  } catch (error) {
+    console.error('Error uploading to IPFS:', error);
+    throw new Error('Error uploading to IPFS');
+  }
+};
 
 // Function to handle form submission
-export const createForm = async (req, res) => {
+export const createForm = async (formData) => {
   try {
-    const {
-      name,
-      email,
-      phone,
-      position,
-      role,
-      education,
-      collegeName,
-      specialization,
-      cgpa,
-      graduationYear,
-      skills,
-      personalComputer,
-      preferredStartDate,
-      timePerWeek,
-      experienceYears,
-      passOutYear,
-      currentCTC,
-      expectedCTC,
-      whyPrajnan,
-      howDidYouHear,
-    } = req.body;
-
-    if (!name || !email || !phone || !position || !role) {
-      return res.status(400).json({ message: 'Please fill all required fields.' });
-    }
-
-    let resumeCID = null;
-
-    if (req.file) {
-      const fileBuffer = req.file.buffer;
-      try {
-        resumeCID = await uploadToIPFS(fileBuffer);
-      } catch (ipfsError) {
-        console.error('Error uploading file to IPFS:', ipfsError);
-        return res.status(500).json({ message: 'Error uploading file to IPFS.', error: ipfsError });
-      }
-    }
-
-    const form = new Form({
-      name,
-      email,
-      phone,
-      position,
-      role,
-      education,
-      collegeName,
-      specialization,
-      cgpa,
-      graduationYear,
-      skills,
-      personalComputer,
-      preferredStartDate,
-      timePerWeek,
-      experienceYears,
-      passOutYear,
-      currentCTC,
-      expectedCTC,
-      whyPrajnan,
-      howDidYouHear,
-      resume: resumeCID,
-    });
-
+    const form = new Form(formData);
     const savedForm = await form.save();
-    res.status(201).json({ message: 'Form submitted successfully.', form: savedForm });
+    return savedForm;
   } catch (error) {
     console.error('Error in createForm:', error);
-    res.status(500).json({ message: 'Server error.', error });
+    throw new Error('Error saving form data');
   }
 };
 
@@ -99,17 +44,12 @@ export const getFormById = async (req, res) => {
   try {
     const { id } = req.params;
     const form = await Form.findById(id);
-
     if (!form) {
       return res.status(404).json({ message: 'Form not found.' });
     }
-
     res.status(200).json(form);
   } catch (error) {
     console.error('Error in getFormById:', error);
     res.status(500).json({ message: 'Server error.', error });
   }
 };
-
-// Multer middleware export for file uploads
-export const uploadMiddleware = upload.single('resume');
