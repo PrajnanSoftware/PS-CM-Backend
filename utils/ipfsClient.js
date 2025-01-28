@@ -19,9 +19,10 @@ const ipfs = create({
 
 export const uploadToIPFS = async (file) => {
   try {
-    // Ensure file is being passed correctly
-    console.log("Uploading file to IPFS...");
-    const result = await ipfs.add(file.buffer); // Ensure that the file's buffer is passed to IPFS
+    console.log('Uploading file to IPFS...');
+    const result = await ipfs.add(file.buffer, {
+      pin: true, // Optional: Pin the file on IPFS
+    });
     console.log('File uploaded to IPFS with CID:', result.path);
     return result.path; // Return the CID of the uploaded file
   } catch (error) {
