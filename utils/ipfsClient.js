@@ -1,7 +1,7 @@
-import fetch from 'node-fetch';
-
 export const uploadToIPFS = async (fileBuffer) => {
   try {
+    const fetch = (await import('node-fetch')).default; // Dynamically import node-fetch
+
     const formData = new FormData();
     formData.append('file', new Blob([fileBuffer]), 'resume.pdf');
     
@@ -13,7 +13,7 @@ export const uploadToIPFS = async (fileBuffer) => {
     const data = await response.json();
     if (data && data.Hash) {
       console.log('File uploaded to IPFS with CID:', data.Hash);
-      return data.Hash;  // Return the CID
+      return data.Hash; // Return the CID
     } else {
       throw new Error('Error uploading to IPFS');
     }
