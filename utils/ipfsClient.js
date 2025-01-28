@@ -1,7 +1,6 @@
 import { create } from 'ipfs-http-client';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
 const apiKey = process.env.IPFS_API_KEY;
