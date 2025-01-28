@@ -10,6 +10,8 @@ const upload = multer({ storage: storage });
 
 // Route to create a new form entry
 router.post('/', upload.single('resume'), async (req, res) => {
+  console.log('Request body:', req.body); // Debug: Log body
+  console.log('File:', req.file);
   try {
     const formData = req.body;
 
