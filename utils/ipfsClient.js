@@ -1,6 +1,7 @@
 import { create } from 'ipfs-http-client';
 import dotenv from 'dotenv';
 
+// Load environment variables
 dotenv.config();
 
 const apiKey = process.env.IPFS_API_KEY;
@@ -11,12 +12,6 @@ if (!apiKey) {
 
 const ipfs = create({
   url: 'https://ipfs.infura.io:5001/api/v0',
-  fetch: async (url, options) => {
-    return fetch(url, {
-      ...options,
-      duplex: 'half', // Explicitly set the duplex option
-    });
-  },
   headers: {
     Authorization: `Bearer ${apiKey}`, // Pass the API key as a Bearer token
   },
