@@ -10,9 +10,14 @@ if (!apiKey) {
   throw new Error('IPFS_API_KEY is not defined in the .env file');
 }
 
-// Create the IPFS client
 const ipfs = create({
   url: 'https://ipfs.infura.io:5001/api/v0',
+  fetch: async (url, options) => {
+    return fetch(url, {
+      ...options,
+      duplex: 'half', // Explicitly set the duplex option
+    });
+  },
   headers: {
     Authorization: `Bearer ${apiKey}`, // Pass the API key as a Bearer token
   },
