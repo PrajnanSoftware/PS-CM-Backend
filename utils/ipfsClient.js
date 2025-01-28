@@ -1,5 +1,7 @@
 import { create } from 'ipfs-http-client';
 import dotenv from 'dotenv';
+import FormData from 'form-data';
+import fs from 'fs';
 
 // Load environment variables
 dotenv.config();
@@ -13,18 +15,36 @@ if (!apiKey) {
 const ipfs = create({
   url: 'https://ipfs.infura.io:5001/api/v0',
   headers: {
-    Authorization: `Bearer ${apiKey}`, // Pass the API key as a Bearer token
+    Authorization: `Bearer ${apiKey}`,
   },
 });
 
 export const uploadToIPFS = async (file) => {
   try {
-    console.log('Uploading file to IPFS...');
-    const result = await ipfs.add(file.buffer, {
-      pin: true, // Optional: Pin the file on IPFS
-    });
-    console.log('File uploaded to IPFS with CID:', result.path);
-    return result.path; // Return the CID of the uploaded file
+    // Create a FormData object to handle file upload
+    const form = new FormData();
+    form.append('file', file.buffer, file.originalname);
+
+    // Prepare the request options
+    const options = {
+      method: 'POST',
+      headers: {
+        ...form.getHeaders(),
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: form,
+    };
+
+    const res = await fetch('https://ipfs.infura.io:5001/api/v0/add', options);
+    const result = await res.json();
+    
+    if (res.ok) {
+      console.log('File uploaded to IPFS with CID:', result.Hash);
+      return result.Hash; // Return the CID of the uploaded file
+    } else {
+      console.error('Error uploading to IPFS:', result);
+      throw new Error('Error uploading to IPFS');
+    }
   } catch (error) {
     console.error('Error uploading to IPFS:', error);
     throw new Error('Error uploading to IPFS');
