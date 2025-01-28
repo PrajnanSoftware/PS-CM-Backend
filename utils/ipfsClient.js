@@ -1,7 +1,7 @@
 import { create } from 'ipfs-http-client';
 import dotenv from 'dotenv';
 import FormData from 'form-data';
-import fs from 'fs';
+import streamifier from 'streamifier'; // Import the streamifier package
 
 // Load environment variables
 dotenv.config();
@@ -23,7 +23,12 @@ export const uploadToIPFS = async (file) => {
   try {
     // Create a FormData object to handle file upload
     const form = new FormData();
-    form.append('file', file.buffer, file.originalname);
+
+    // Convert the buffer to a readable stream
+    const fileStream = streamifier.createReadStream(file.buffer);
+
+    // Append the stream to the FormData
+    form.append('file', fileStream, file.originalname);
 
     // Prepare the request options
     const options = {
