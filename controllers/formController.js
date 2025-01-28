@@ -1,12 +1,13 @@
 import Form from '../models/form';
 
+// Create a new form
 export const createForm = async (req, res) => {
   try {
-    // Convert prototype-less req.body to a plain object
-    console.log('Before conversion:', req.body); // Should log: [Object: null prototype] {...}
-    const formData = Object.assign({}, req.body);
-    console.log('After conversion:', formData); // Should log a plain object
+    console.log('Request body:', req.body); // Debug log
+    console.log('File:', req.file); // Debug log for the file
 
+    // Convert prototype-less req.body to a plain object
+    const formData = Object.assign({}, req.body);
 
     // Destructure the plain object
     const { name, email, phone, position, role } = formData;
@@ -16,17 +17,25 @@ export const createForm = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    // Save form data
+    // Create a new form instance
     const form = new Form(formData);
-    const savedForm = await form.save();
 
+    // Handle file upload
+    if (req.file) {
+      form.resume = {
+        data: req.file.buffer, // Store file as binary data
+        contentType: req.file.mimetype, // Store the file MIME type
+      };
+    }
+
+    // Save form data to the database
+    const savedForm = await form.save();
     res.status(201).json({ message: 'Form submitted successfully', form: savedForm });
   } catch (error) {
     console.error('Error in createForm:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
-
 
 // Get all form entries
 export const getForms = async (req, res) => {
@@ -50,6 +59,24 @@ export const getFormById = async (req, res) => {
     res.status(200).json(form);
   } catch (error) {
     console.error('Error in getFormById:', error);
+    res.status(500).json({ message: 'Server error.', error });
+  }
+};
+
+// Retrieve and serve the resume as a PDF
+export const getResume = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const form = await Form.findById(id);
+
+    if (!form || !form.resume) {
+      return res.status(404).json({ message: 'Resume not found.' });
+    }
+
+    res.contentType(form.resume.contentType);
+    res.send(form.resume.data);
+  } catch (error) {
+    console.error('Error in getResume:', error);
     res.status(500).json({ message: 'Server error.', error });
   }
 };
