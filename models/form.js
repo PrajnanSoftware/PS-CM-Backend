@@ -8,7 +8,6 @@ const formSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Email is required'],
-    unique: true,
     match: [/.+@.+\..+/, 'Please provide a valid email address'],
   },
   phone: {
@@ -48,5 +47,7 @@ const formSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+formSchema.index({ email: 1, position: 1 }, { unique: true });
 
 module.exports = mongoose.model('Form', formSchema);
