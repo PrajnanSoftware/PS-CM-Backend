@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { createForm, getForms, getFormById, getResume } = require('../controllers/formController');
+const { createForm, getForms, getFormById, getResume, updateFormStatus } = require('../controllers/formController');
 
 const router = express.Router();
 
@@ -19,5 +19,8 @@ router.get('/:id', getFormById);
 
 // Route to retrieve a resume PDF by form ID
 router.get('/:id/resume', getResume);
+
+// ✅ Route to update form status
+router.put('/:id/status', updateFormStatus);
 
 module.exports = router;
