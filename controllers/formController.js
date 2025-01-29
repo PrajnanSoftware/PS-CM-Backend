@@ -33,7 +33,13 @@ export const createForm = async (req, res) => {
     res.status(201).json({ message: 'Form submitted successfully', form: savedForm });
   } catch (error) {
     console.error('Error in createForm:', error);
-    res.status(500).json({ message: 'Server error', error });
+    if (error.code === 11000) {
+      res.status(400).json({
+        message: "You have already applied for this position with this email. Please use a different email or choose another position.",
+      });
+    } else {
+      res.status(500).json({ message: "Server error. Please try again." });
+    }
   }
 };
 
