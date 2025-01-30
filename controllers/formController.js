@@ -109,3 +109,19 @@ export const updateFormStatus = async (req, res) => {
     res.status(500).json({ message: "Server error.", error });
   }
 };
+
+export const getFormsByStatus = async (req, res) => {
+  try {
+    const { status } = req.params;
+    const forms = await Form.find({ status });
+
+    if (!forms.length) {
+      return res.status(404).json({ message: `No applications found with status: ${status}` });
+    }
+
+    res.status(200).json(forms);
+  } catch (error) {
+    console.error("Error in getFormsByStatus:", error);
+    res.status(500).json({ message: "Server error.", error });
+  }
+};

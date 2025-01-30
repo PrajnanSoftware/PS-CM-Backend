@@ -23,4 +23,6 @@ router.get('/:id/resume', getResume);
 // ✅ Route to update form status
 router.put('/:id/status', updateFormStatus);
 
+router.get('/status/:status', getFormsByStatus);
+
 module.exports = router;
