@@ -7,4 +7,4 @@ const router = express.Router();
 // Define route for fetching stats
 router.get("/", getApplicationStats);
 
-export default router;
+module.exports = router;
