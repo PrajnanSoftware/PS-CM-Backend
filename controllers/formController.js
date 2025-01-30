@@ -103,7 +103,7 @@ export const updateFormStatus = async (req, res) => {
       return res.status(404).json({ message: "Form not found." });
     }
 
-    res.status(200).json(updatedForm);
+    res.status(200).json({ message: "Status updated successfully", form: updatedForm });
   } catch (error) {
     console.error("Error in updateFormStatus:", error);
     res.status(500).json({ message: "Server error.", error });
