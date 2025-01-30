@@ -1,4 +1,4 @@
-const Form = require('../models/formModel'); // ✅ Use Form model instead of Application
+const Form = require('../models/form'); // ✅ Use Form model instead of Application
 
 // Function to get application stats
 const getApplicationStats = async (req, res) => {
