@@ -5,6 +5,6 @@ const { getApplicationStats } = require('../controllers/statsController');
 const router = express.Router();
 
 // Define route for fetching stats
-router.get("/", getApplicationStats);
+router.get("/stats", getApplicationStats);
 
 module.exports = router;

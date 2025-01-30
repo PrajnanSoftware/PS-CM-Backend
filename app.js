@@ -27,7 +27,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/profile', profileRoutes);
 app.use('/api/v1/forms', formRoutes);
 app.use('/api', protectedRoute);
-app.use("/api/v1/stats", statsRoutes);
+app.use("/api/v1/statsRoutes", statsRoutes);
 
 // WebSocket for notifications and chat
 const server = app.listen(process.env.PORT || 5000, () => {
