@@ -46,7 +46,7 @@ const formSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  status: { type: String, default: "Pending" },
+  status: { type: String, enum: ['Shortlisted', 'Rejected', 'Pending', 'Interview Scheduled'],  default: "Pending" },
 });
 
 formSchema.index({ email: 1, position: 1 }, { unique: true });

@@ -1,13 +1,13 @@
-const Application = require('../models/applicationModel');
+const Form = require('../models/formModel'); // ✅ Use Form model instead of Application
 
 // Function to get application stats
 const getApplicationStats = async (req, res) => {
   try {
     // Get the total number of applications
-    const totalApplications = await Application.countDocuments();
+    const totalApplications = await Form.countDocuments(); // ✅ Use Form model
 
     // Get the count of applications based on status
-    const statusDistribution = await Application.aggregate([
+    const statusDistribution = await Form.aggregate([
       {
         $group: {
           _id: "$status", // Group by status
@@ -24,7 +24,7 @@ const getApplicationStats = async (req, res) => {
     ]);
 
     // Get the count of applications based on role
-    const roleDistribution = await Application.aggregate([
+    const roleDistribution = await Form.aggregate([
       {
         $group: {
           _id: "$role", // Group by role
@@ -41,7 +41,7 @@ const getApplicationStats = async (req, res) => {
     ]);
 
     // Get the count of applications based on position
-    const positionDistribution = await Application.aggregate([
+    const positionDistribution = await Form.aggregate([
       {
         $group: {
           _id: "$position", // Group by position
