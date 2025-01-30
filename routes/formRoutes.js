@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { createForm, getForms, getFormById, getResume, updateFormStatus } = require('../controllers/formController');
+const { createForm, getForms, getFormById, getResume, updateFormStatus, getFormsByStatus } = require('../controllers/formController');
 
 const router = express.Router();
 
