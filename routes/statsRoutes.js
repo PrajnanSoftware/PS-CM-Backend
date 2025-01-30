@@ -1,6 +1,6 @@
 // src/routes/statsRoutes.ts
-import express from "express";
-import { getApplicationStats } from "../controllers/statsController";
+const express = require('express');
+const { getApplicationStats } = require('../controllers/authController');
 
 const router = express.Router();
 
