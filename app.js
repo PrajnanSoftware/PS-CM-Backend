@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const formRoutes = require('./routes/formRoutes');
 const protectedRoute = require('./routes/protectedRoute');
+const statsRoutes = require('./routes/statsRoutes');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
