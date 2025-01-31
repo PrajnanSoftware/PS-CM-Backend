@@ -30,6 +30,8 @@ export const createForm = async (req, res) => {
 
     // Save form data to the database
     const savedForm = await form.save();
+     // Send confirmation email to the user
+     sendConfirmationEmail(savedForm.email, savedForm.name);
     res.status(201).json({ message: 'Form submitted successfully', form: savedForm });
   } catch (error) {
     console.error('Error in createForm:', error);
@@ -123,5 +125,34 @@ export const getFormsByStatus = async (req, res) => {
   } catch (error) {
     console.error("Error in getFormsByStatus:", error);
     res.status(500).json({ message: "Server error.", error });
+  }
+};
+
+
+// Function to send a confirmation email
+const sendConfirmationEmail = async (userEmail, userName) => {
+  // Set up Nodemailer transport
+  const transporter = nodemailer.createTransport({
+    host: "smtp.hostinger.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'talentacquisition@prajnansoftwares.com',  // Your email address
+      pass: 'Prajnan@321',  // Your email password or App Password if 2FA enabled
+    },
+  });
+
+  const mailOptions = {
+    from: `"Prajnan Software" <talentacquisition@prajnansoftwares.com>`,   // Sender email
+    to: userEmail,                // Recipient email (the user's email)
+    subject: 'Form Submission Confirmation || PS',  // Subject of the email
+    text: `Hello ${userName},\n\nThank you for submitting your form. We have received your application for the position and will review it shortly.\n\nBest regards,\nHR Team \n Prajnan Software Pvt Ltd.`, // Body content
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Confirmation email sent successfully!');
+  } catch (error) {
+    console.error('Error sending email:', error);
   }
 };
