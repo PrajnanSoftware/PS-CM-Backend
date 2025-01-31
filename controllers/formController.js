@@ -135,8 +135,8 @@ export const getFormsByStatus = async (req, res) => {
 const sendConfirmationEmail = async (userEmail, userName) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.hostinger.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: {
       user: "talentacquisition@prajnansoftwares.com",
       pass: "Prajnan@321", // Use App Password if 2FA is enabled

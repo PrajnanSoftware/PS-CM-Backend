@@ -6,8 +6,8 @@ export const sendEmail = async (req, res) => {
   try {
     let transporter = nodemailer.createTransport({
       host: "smtp.hostinger.com", // ✅ Hostinger SMTP server
-      port: 465, // ✅ Use 465 for SSL or 587 for TLS
-      secure: true, // ✅ True for SSL
+      port: 587, // ✅ Use 465 for SSL or 587 for TLS
+      secure: false, // ✅ True for SSL
       auth: {
         user: "talentacquisition@prajnansoftwares.com", // ✅ Your Hostinger email
         pass: "Prajnan@321", // ✅ Your Hostinger email password
