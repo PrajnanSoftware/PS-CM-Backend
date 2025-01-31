@@ -133,28 +133,38 @@ export const getFormsByStatus = async (req, res) => {
 
 // Function to send a confirmation email
 const sendConfirmationEmail = async (userEmail, userName) => {
-  // Set up Nodemailer transport
   const transporter = nodemailer.createTransport({
     host: "smtp.hostinger.com",
     port: 465,
     secure: true,
     auth: {
-      user: 'talentacquisition@prajnansoftwares.com',  // Your email address
-      pass: 'Prajnan@321',  // Your email password or App Password if 2FA enabled
+      user: "talentacquisition@prajnansoftwares.com",
+      pass: "Prajnan@321", // Use App Password if 2FA is enabled
     },
+    logger: true, // Enable logging for debugging
+    debug: true,  // Debug mode to see errors in console
+  });
+
+  // Verify the SMTP connection
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error("SMTP Connection Error:", error);
+    } else {
+      console.log("SMTP Server is ready to take our messages.");
+    }
   });
 
   const mailOptions = {
-    from: `"Prajnan Software" <talentacquisition@prajnansoftwares.com>`,   // Sender email
-    to: userEmail,                // Recipient email (the user's email)
-    subject: 'Form Submission Confirmation || PS',  // Subject of the email
-    text: `Hello ${userName},\n\nThank you for submitting your form. We have received your application for the position and will review it shortly.\n\nBest regards,\nHR Team \n Prajnan Software Pvt Ltd.`, // Body content
+    from: `"Prajnan Software" <talentacquisition@prajnansoftwares.com>`,
+    to: userEmail,
+    subject: "Form Submission Confirmation || PS",
+    text: `Hello ${userName},\n\nThank you for submitting your form. We have received your application and will review it shortly.\n\nBest regards,\nHR Team \nPrajnan Software Pvt Ltd.`,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Confirmation email sent successfully!');
+    console.log("✅ Confirmation email sent successfully!");
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("❌ Error sending email:", error);
   }
 };
