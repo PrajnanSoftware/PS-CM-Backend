@@ -1,5 +1,7 @@
 import Form from '../models/form';
 
+const nodemailer = require('nodemailer');
+
 // Create a new form
 export const createForm = async (req, res) => {
   try {
