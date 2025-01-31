@@ -165,6 +165,8 @@ const sendConfirmationEmail = async (userEmail, userName) => {
     const info = await transporter.sendMail(mailOptions);
     console.log("✅ Email Sent:", info);
   } catch (error) {
-    console.error("❌ Error sending email:", error);
-  }
+    console.error("❌ Error sending email:", error.message);
+    console.error("Error code:", error.code);  // Log error code if available
+    console.error("Error stack trace:", error.stack);  // Log stack trace for deeper insights
+  }  
 };
