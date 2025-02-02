@@ -137,7 +137,6 @@ export const getFormsByStatus = async (req, res) => {
 
 // Function to send a confirmation email
 const sendConfirmationEmail = async (userEmail, userName) => {
-  try {
   let transporter = nodemailer.createTransport({
     host: "smtp.hostinger.com",
     port: 465,
@@ -155,10 +154,5 @@ const sendConfirmationEmail = async (userEmail, userName) => {
     text: `Hello ${userName},\n\nThank you for submitting your form. We have received your application and will review it shortly.\n\nBest regards,\nHR Team \nPrajnan Software Pvt Ltd.`,
   };
 
-  await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true, message: "Email sent successfully!" });
-  } catch (error) {
-    console.error("Email error:", error);
-    res.status(500).json({ success: false, message: "Failed to send email." });
-  }
+ return await transporter.sendMail(mailOptions);
 };
