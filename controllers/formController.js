@@ -32,8 +32,12 @@ export const createForm = async (req, res) => {
 
     // Save form data to the database
     const savedForm = await form.save();
-     // Send confirmation email to the user
-     sendConfirmationEmail(savedForm.email, savedForm.name);
+    try {
+      await sendConfirmationEmail(savedForm.email, savedForm.name);
+    } catch (emailError) {
+      console.error("❌ Email sending failed:", emailError);
+      return res.status(500).json({ message: "Form saved, but email failed to send." });
+    }
     res.status(201).json({ message: 'Form submitted successfully', form: savedForm });
   } catch (error) {
     console.error('Error in createForm:', error);
