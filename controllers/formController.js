@@ -133,7 +133,8 @@ export const getFormsByStatus = async (req, res) => {
 
 // Function to send a confirmation email
 const sendConfirmationEmail = async (userEmail, userName) => {
-  const transporter = nodemailer.createTransport({
+  try {
+  let transporter = nodemailer.createTransport({
     host: "smtp.hostinger.com",
     port: 465,
     secure: true,
@@ -141,32 +142,19 @@ const sendConfirmationEmail = async (userEmail, userName) => {
       user: "talentacquisition@prajnansoftwares.com",
       pass: "Prajnan@321", // Use App Password if 2FA is enabled
     },
-    logger: true, // Enable logging for debugging
-    debug: true,  // Debug mode to see errors in console
   });
 
-  // Verify the SMTP connection
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error("SMTP Connection Error:", error);
-    } else {
-      console.log("SMTP Server is ready to take our messages.");
-    }
-  });
-
-  const mailOptions = {
+  let mailOptions = {
     from: `"Prajnan Software" <talentacquisition@prajnansoftwares.com>`,
     to: userEmail,
     subject: "Form Submission Confirmation || PS",
     text: `Hello ${userName},\n\nThank you for submitting your form. We have received your application and will review it shortly.\n\nBest regards,\nHR Team \nPrajnan Software Pvt Ltd.`,
   };
 
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log("✅ Email Sent:", info);
+  await transporter.sendMail(mailOptions);
+    res.status(200).json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
-    console.error("❌ Error sending email:", error.message);
-    console.error("Error code:", error.code);  // Log error code if available
-    console.error("Error stack trace:", error.stack);  // Log stack trace for deeper insights
-  }  
+    console.error("Email error:", error);
+    res.status(500).json({ success: false, message: "Failed to send email." });
+  }
 };
