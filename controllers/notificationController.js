@@ -1,43 +1,33 @@
-const Notification = require("../models/Notification");
+import Notification from "../models/Notification";
 
-// ✅ Get Notifications for a User
-const getNotifications = async (req, res) => {
+// Fetch notifications for a user
+export const getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ userId: req.user.id })
-      .sort({ createdAt: -1 })
-      .limit(10);
-    
-    res.status(200).json(notifications);
+    const notifications = await Notification.find({ userId: req.user.id }).sort({ createdAt: -1 });
+    res.json(notifications);
   } catch (error) {
-    console.error("Error fetching notifications:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Error fetching notifications" });
   }
 };
 
-// ✅ Create a New Notification
-const createNotification = async (userId, type, message) => {
-  try {
-    await Notification.create({ userId, type, message });
-  } catch (error) {
-    console.error("Error creating notification:", error);
-  }
-};
-
-// ✅ Mark Notification as Read
-const markAsRead = async (req, res) => {
+// Mark a notification as read
+export const markAsRead = async (req, res) => {
   try {
     await Notification.findByIdAndUpdate(req.params.id, { isRead: true });
-
-    res.status(200).json({ message: "Notification marked as read" });
+    res.json({ message: "Notification marked as read" });
   } catch (error) {
-    console.error("Error marking notification as read:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Error updating notification" });
   }
 };
 
-// ✅ Correctly Export as an Object
-module.exports = {
-  getNotifications,
-  createNotification,
-  markAsRead,
+// Create a new notification
+export const createNotification = async (req, res) => {
+  try {
+    const { userId, message } = req.body;
+    const notification = new Notification({ userId, message });
+    await notification.save();
+    res.status(201).json(notification);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating notification" });
+  }
 };
