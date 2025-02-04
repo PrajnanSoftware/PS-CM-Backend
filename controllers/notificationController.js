@@ -1,7 +1,7 @@
 const Notification = require("../models/Notification");
 
 // ✅ Get Notifications for a User
-exports.getNotifications = async (req, res) => {
+const getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ userId: req.user.id })
       .sort({ createdAt: -1 })
@@ -15,7 +15,7 @@ exports.getNotifications = async (req, res) => {
 };
 
 // ✅ Create a New Notification
-exports.createNotification = async (userId, type, message) => {
+const createNotification = async (userId, type, message) => {
   try {
     await Notification.create({ userId, type, message });
   } catch (error) {
@@ -24,7 +24,7 @@ exports.createNotification = async (userId, type, message) => {
 };
 
 // ✅ Mark Notification as Read
-exports.markAsRead = async (req, res) => {
+const markAsRead = async (req, res) => {
   try {
     await Notification.findByIdAndUpdate(req.params.id, { isRead: true });
 
@@ -33,4 +33,11 @@ exports.markAsRead = async (req, res) => {
     console.error("Error marking notification as read:", error);
     res.status(500).json({ message: "Server error" });
   }
+};
+
+// ✅ Correctly Export as an Object
+module.exports = {
+  getNotifications,
+  createNotification,
+  markAsRead,
 };
