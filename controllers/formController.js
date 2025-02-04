@@ -32,6 +32,14 @@ export const createForm = async (req, res) => {
 
     // Save form data to the database
     const savedForm = await form.save();
+    // ✅ Create a notification for the form submission
+    const notification = new Notification({
+      userId: savedForm._id, // Link to the form
+      type: "job_application",
+      message: `A new job application has been submitted by ${name} for ${position}.`,
+    });
+
+    await notification.save(); // Save notification in the database
     try {
       await sendConfirmationEmail(savedForm.email, savedForm.name);
     } catch (emailError) {

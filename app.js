@@ -7,6 +7,7 @@ const formRoutes = require('./routes/formRoutes');
 const protectedRoute = require('./routes/protectedRoute');
 const statsRoutes = require('./routes/statsRoutes');
 const emailRoutes = require('./routes/emailRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
@@ -30,6 +31,7 @@ app.use('/api/v1/forms', formRoutes);
 app.use('/api', protectedRoute);
 app.use("/api/v1/statsRoutes", statsRoutes);
 app.use("/api/v1/emailRoutes", emailRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 // WebSocket for notifications and chat
 const server = app.listen(process.env.PORT || 5000, () => {
