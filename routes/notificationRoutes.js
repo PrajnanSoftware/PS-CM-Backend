@@ -4,7 +4,7 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-// ✅ Ensure the functions exist
+// ✅ Ensure functions are correctly imported
 router.get("/", authMiddleware, getNotifications); 
 router.post("/", authMiddleware, createNotification); 
 router.put("/:id/read", authMiddleware, markAsRead); 
