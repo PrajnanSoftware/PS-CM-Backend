@@ -1,5 +1,5 @@
 import Form from '../models/form';
-import Notification from '../models/notification';
+import Notification from '../models/Notification';
 
 const nodemailer = require('nodemailer');
 
