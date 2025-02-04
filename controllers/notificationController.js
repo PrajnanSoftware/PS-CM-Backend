@@ -3,12 +3,17 @@ const Notification = require("../models/Notification");
 // Fetch notifications for a user
 const getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ userId: req.user.id }).sort({ createdAt: -1 });
+    // Fetch all notifications for admin
+    const notifications = await Notification.find().sort({ createdAt: -1 });
+    if (!notifications.length) {
+      return res.status(404).json({ message: "No notifications found" });
+    }
     res.json(notifications);
   } catch (error) {
     res.status(500).json({ message: "Error fetching notifications" });
   }
 };
+
 
 // Mark a notification as read
 const markAsRead = async (req, res) => {
