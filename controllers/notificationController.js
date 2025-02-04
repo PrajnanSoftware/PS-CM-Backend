@@ -37,5 +37,25 @@ const createNotification = async (req, res) => {
   }
 };
 
+const clearAllNotifications = async (req, res) => {
+  try {
+    await Notification.deleteMany({ userId: req.user.id }); // Adjust according to your user model
+    res.status(200).json({ message: "All notifications cleared." });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to clear notifications", error });
+  }
+};
+
+const deleteNotification = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Notification.findByIdAndDelete(id);
+    res.status(200).json({ message: "Notification deleted." });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete notification", error });
+  }
+};
+
+
 // Export the functions properly
-module.exports = { getNotifications, createNotification, markAsRead };
+module.exports = { getNotifications, createNotification, markAsRead, clearAllNotifications, deleteNotification };

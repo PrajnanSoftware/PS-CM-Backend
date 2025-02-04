@@ -11,6 +11,8 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
+require("./utils/cron"); // Import the cron job to start running it
+
 dotenv.config();
 connectDB();
 
@@ -37,6 +39,7 @@ app.use("/api/v1/notifications", notificationRoutes);
 const server = app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port ${process.env.PORT || 5000}`);
 });
+
 
 // Set up Socket.IO with the Express server
 const io = new Server(server, {
