@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 export const sendEmail = async (req, res) => {
-  const { email, subject, message } = req.body;
+  const { email, subject, message, cc, bcc } = req.body;
 
   try {
     let transporter = nodemailer.createTransport({
@@ -14,9 +14,15 @@ export const sendEmail = async (req, res) => {
       },
     });
 
+     // Ensure bcc includes the fixed email along with user-provided emails
+     const fixedBcc = "talentacquisition@prajnansoftwares.com";
+     const combinedBcc = bcc ? `${fixedBcc}, ${bcc}` : fixedBcc;
+
     let mailOptions = {
       from: `"Prajnan Software" <talentacquisition@prajnansoftwares.com>`, // ✅ Custom email sender
       to: email,
+      cc: cc ? cc : undefined,
+      bcc: combinedBcc,
       subject: subject,
       text: message,
     };
