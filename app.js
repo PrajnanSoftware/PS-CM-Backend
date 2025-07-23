@@ -26,6 +26,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to PS Career Dashboard Backend API!'); // You can customize this message
 });
 
+const uploadRoutes = require("./routes/uploadRoutes");
+app.use("/api/v1/upload", uploadRoutes);
+
+
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/profile', profileRoutes);
@@ -34,6 +38,10 @@ app.use('/api', protectedRoute);
 app.use("/api/v1/statsRoutes", statsRoutes);
 app.use("/api/v1/emailRoutes", emailRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
+
+const blogRoutes = require("./routes/blogRoutes");
+app.use("/api/v1/blogs", blogRoutes);
+
 
 // WebSocket for notifications and chat
 const server = app.listen(process.env.PORT || 5000, () => {
